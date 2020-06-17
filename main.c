@@ -1,27 +1,4 @@
-#include<stdio.h>
-#include<windows.h>
-#include<time.h>
-#include<stdlib.h>
-#define LEVEL1 1
-#define LEVEL2 2
-#define LEVEL3 3
-#define DIFF1 5
-#define DIFF2 7
-#define DIFF3 12
-#define KBHIT1 150
-#define KBHIT2 120
-#define KBHIT3 100
-#define TREASURE 0
-#define BACKTOSTART 1
-#define RESETFLAG 2
-#define RESETPOINT 3
-int menu();
-int playGame(int, int*, int*);
-void makeBackground(int, int*, int*, int*);
-void makeFlag(int, int[][18], struct flagPoint *, int);
-int checkPoint(int , int , int, struct flagPoint *, int, int*);
-int checkFlag(int, int, int*, int*, int, int*, int[][18], struct flagPoint*, int*);
-int useItem(int, int, int *, int *, int *, int *, struct flagPoint *);
+#include "myheader.h"
 struct flagPoint {
 	int x;
 	int y;
@@ -34,7 +11,7 @@ void gotoxy(int x, int y)
 }
 int main() {
 	int start = 0;
-	system("mode con cols=80 lines=40");
+	system("mode con cols=200 lines=100");
 	while (start != 4) {
 		start = menu();
 	}
@@ -69,11 +46,40 @@ int menu() {
 	return pick;
 }
 
+void drawCharacter(int x, int y) {
+	gotoxy(x, y);
+	printf("   ■■■■■");
+	gotoxy(x, ++y);
+	printf("  ■■■■■■■■■");
+	gotoxy(x, ++y);
+	printf("  ■■■□□■□");
+	gotoxy(x, ++y);
+	printf(" ■□■■□□□■□□□");
+	gotoxy(x, ++y);
+	printf("   □□□□□□□");
+	gotoxy(x, ++y);
+	printf("■■■■■■■■");
+	gotoxy(x, ++y);
+	printf("□□■■■■■■■■□□");
+	gotoxy(x, ++y);
+	printf("  ■■■  ■■■");
+	gotoxy(x, ++y);
+	printf("■■■■    ■■■■");
+}
 
+void eraseCharacter(int x, int y) {
+	for (int i = 0; i < C_ROW; i++) {
+		gotoxy(x, y);
+		for (int i = 0; i < C_COL; i++)
+			printf(" ");
+		y++;
+		printf("\n");
+	}
+}
 int playGame(int level, int *score, int *life) {
 	int i = 0;
 	int x = 1, y = 1, ch;
-	int flag[37][18] = {0, };
+	int flag[MAP_COL - 3][MAP_ROW - 2] = {0, };
 	int check = -1;
 	struct flagPoint flags[12];
 	int diff = 0; 
@@ -100,8 +106,8 @@ int playGame(int level, int *score, int *life) {
 	makeBackground(level, score, &kbHit, life);
 	makeFlag(level, flag, flags, diff);
 	while (1) {
+		drawCharacter(x, y);
 		gotoxy(x, y);
-		printf("◆");
 		check = checkPoint(x, y, level, flags, diff, &check_flag);
 		//printf("%d", check);
 		if (kbHit < 1) {
@@ -112,7 +118,7 @@ int playGame(int level, int *score, int *life) {
 			}
 			else {
 				kbHit = saveMove;
-				gotoxy(0, 22);
+				gotoxy(0, MAP_ROW + 1);
 				printf("남은 이동 횟수: %d  \n", kbHit);
 				printf("LIFE: %d", *life);
 			}
@@ -133,40 +139,44 @@ int playGame(int level, int *score, int *life) {
 		}
 		if (ch == 224) {
 			ch = _getch();
+			eraseCharacter(x, y);
 			gotoxy(x, y);
-			printf("  ");
 		}
 		switch (ch) {
 		case 72:
 			if (y - 1 >= 1) {
 				y--;
 				kbHit--;
-				gotoxy(0, 22);
-				printf("남은 이동 횟수: %d  ", kbHit);
+				gotoxy(0, MAP_ROW + 1);
+				printf("남은 이동 횟수: %d  \n", kbHit);
+				printf("현재 좌표: %d   %d  ", x, y);
 			}
 			break;
 		case 80:
-			if (y + 1 <= 18) {
+			if (y + 1 + C_ROW <= MAP_ROW - 1) {
 				y++;
 				kbHit--;
-				gotoxy(0, 22);
-				printf("남은 이동 횟수: %d  ", kbHit);
+				gotoxy(0, MAP_ROW + 1);
+				printf("남은 이동 횟수: %d  \n", kbHit);
+				printf("현재 좌표: %d   %d  ", x, y);
 			}
 			break;
 		case 75:
 			if (x - 1 >= 1) {
 				x--;
 				kbHit--;
-				gotoxy(0, 22);
-				printf("남은 이동 횟수: %d  ", kbHit);
+				gotoxy(0, MAP_ROW + 1);
+				printf("남은 이동 횟수: %d  \n", kbHit);
+				printf("현재 좌표: %d   %d  ", x, y);
 			}
 			break;
 		case 77:
-			if (x + 1 <= 37) {
+			if (x + 1 + C_COL <= MAP_COL - 2) {
 				x++;
 				kbHit--;
-				gotoxy(0, 22);
-				printf("남은 이동 횟수: %d  ", kbHit);
+				gotoxy(0, MAP_ROW + 1);
+				printf("남은 이동 횟수: %d  \n", kbHit);
+				printf("현재 좌표: %d   %d  ", x, y);
 			}
 			break;
 		}
@@ -186,7 +196,7 @@ int useItem(int level, int diff, int *x, int *y, int *move, int *life, struct fl
 			*move = KBHIT2;
 		else if (level == 3)
 			*move = KBHIT3;
-		gotoxy(0, 22);
+		gotoxy(0, MAP_ROW + 1);
 		printf("남은 이동 횟수: %d  ", *move);
 		break;
 
@@ -217,7 +227,7 @@ int useItem(int level, int diff, int *x, int *y, int *move, int *life, struct fl
 		break;
 	case 3:
 		(*life)++;
-		gotoxy(0, 23);
+		gotoxy(0, MAP_ROW + 2);
 		printf("LIFE: %d", *life);
 		break;
 	}
@@ -226,21 +236,33 @@ int useItem(int level, int diff, int *x, int *y, int *move, int *life, struct fl
 
 void makeBackground(int level, int *score, int *move, int *life) {
 	system("cls");
-	printf("########################################\n");
-	for (int i = 0; i < 18; i++) 
-		printf("#                                      #\n");
-	printf("########################################\n");
+	for(int i =0; i< MAP_COL;i++){
+		printf("#");
+	}
+	printf("\n");
+	for (int i = 0; i < MAP_ROW - 2; i++) {
+		printf("#");
+		for (int i = 0; i < MAP_COL - 2; i++) 
+			printf(" ");
+		printf("#\n");
+	}
+	for (int i = 0; i < MAP_COL; i++) {
+		printf("#");
+	}
 	printf("\nSCORE: %d\n", *score);
 	printf("남은 이동 횟수: %d  \n", *move);
 	printf("LIFE: %d", *life);
+	
 }
 
-void makeFlag(int level, int flag[][18], struct flagPoint *flags, int diff) {
+void makeFlag(int level, int flag[][MAP_ROW - 2], struct flagPoint *flags, int diff) {
 	int flagNum = diff;
 	for (int i = 0; i < flagNum; i++) {
-		int x = rand() % 37;
-		int y = rand() % 18;
-		if (flag[x][y] == 0) {
+		int x = rand() % (MAP_COL - 3);
+		int y = rand() % (MAP_ROW - 2);
+		if ((x < C_COL || y < C_ROW) || flag[x][y] == 1)
+			i--;
+		else if (flag[x][y] == 0) {
 			flag[x][y] = 1;
 			gotoxy(x + 1, y + 1);
 			flags[i].x = x + 1;
@@ -253,19 +275,27 @@ void makeFlag(int level, int flag[][18], struct flagPoint *flags, int diff) {
 				flags[i].mode = i;
 			printf("▶");
 		}
-		else if ((x == 0 && y == 0) || flag[x][y] == 1)
-			i--;
 	}
 }
 
 int checkPoint(int x, int y, int level, struct flagPoint* flags, int diff, int *check_flag) {
 	int check = -1;
+	int br = 0;
 	for (int i = 0; i < diff; i++) {
-		if (((flags[i].x == x || flags[i].x == x + 1) || (flags[i].x == x || flags[i].x == x - 1)) && flags[i].y == y) {
-			check = flags[i].mode;
-			*check_flag = i;
-			break;
+		for (int j = 0; j < C_ROW; j++) {
+			for (int k = 0; k < C_COL; k++) {
+				if (flags[i].x == x + k && flags[i].y == y + j && flags[i].mode != -1) {
+					check = flags[i].mode;
+					*check_flag = i;
+					br = 1;
+					break;
+				}
+			}
+			if (br == 1)
+				break;
 		}
+		if (br == 1)
+			break;
 	}
 	return check;
 }
@@ -285,12 +315,10 @@ int checkFlag(int level, int diff, int *x, int *y, int check, int *score, int fl
 		nextlevel = 0;
 	}
 	else if (check == 1) {
-		gotoxy(*x - 1, *y);
-		printf("  ");
+		eraseCharacter(*x, *y);
 		*x = 1;
 		*y = 1;
-		gotoxy(*x, *y);
-		printf("◆");
+		drawCharacter(*x, *y);
 		flags[*check_flag].mode = -1;
 		nextlevel = 1;
 	}
@@ -308,8 +336,8 @@ int checkFlag(int level, int diff, int *x, int *y, int check, int *score, int fl
 			flags[i].mode = -1;
 		}
 		makeFlag(level, flag, flags, countFlag - 1);
-		gotoxy(*x, *y);
-		printf("◆");
+		//gotoxy(*x, *y);
+		//printf("◆");
 		nextlevel = 2;
 	}
 	else if (check == 3) {
@@ -317,10 +345,10 @@ int checkFlag(int level, int diff, int *x, int *y, int check, int *score, int fl
 		gotoxy(*x - 1, *y);
 		printf("  ");
 		*score = 0;
-		gotoxy(0, 21);
+		gotoxy(0, MAP_ROW);
 		printf("SCORE: %d  \n", *score);
-		gotoxy(*x, *y);
-		printf("◆");
+		//gotoxy(*x, *y);
+		//printf("◆");
 		flags[*check_flag].mode = -1;
 		nextlevel = 3;
 	}
