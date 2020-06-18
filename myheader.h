@@ -2,6 +2,8 @@
 #include<windows.h>
 #include<time.h>
 #include<stdlib.h>
+#define HINT_ROW 6
+#define HINT_COL 5
 #define MAP_COL 190
 #define MAP_ROW 45
 #define C_ROW 9
@@ -23,8 +25,11 @@ int menu();
 int playGame(int, int*, int*);
 void makeBackground(int, int*, int*, int*);
 void makeFlag(int, int[][MAP_ROW - 2], struct flagPoint*, int);
-int checkPoint(int, int, int, struct flagPoint*, int, int*);
+int checkPoint(int, int, int, int, struct flagPoint*, struct item *,int, int*);
 int checkFlag(int, int, int*, int*, int, int*, int[][18], struct flagPoint*, int*);
-int useItem(int, int, int*, int*, int*, int*, struct flagPoint*);
+int useItem(int, int, int*, int*, int*, int*, struct flagPoint*, struct item *);
 void drawCharacter(int, int);
 void eraseCharacter(int, int);
+void setItem(int[][MAP_ROW - 2], struct item *);
+void eraseItem(struct item*);
+void drawTitle()
