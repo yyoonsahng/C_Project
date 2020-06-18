@@ -32,4 +32,5 @@ void drawCharacter(int, int);
 void eraseCharacter(int, int);
 void setItem(int[][MAP_ROW - 2], struct item *);
 void eraseItem(struct item*);
-void drawTitle()
+void drawTitle();
+void makeStar(int);
