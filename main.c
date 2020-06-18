@@ -4,6 +4,12 @@ struct flagPoint {
 	int y;
 	int mode;
 };
+struct item {
+	int item_x;
+	int item_y;
+	int item_num;
+};
+
 void gotoxy(int x, int y)
 {
 	COORD pos = { x,y };
@@ -11,7 +17,7 @@ void gotoxy(int x, int y)
 }
 int main() {
 	int start = 0;
-	system("mode con cols=200 lines=100");
+	system("mode con cols=210 lines=105");
 	while (start != 4) {
 		start = menu();
 	}
@@ -22,6 +28,8 @@ int menu() {
 	int score = 0;
 	int pick = 0;
 	int life = 1;
+	
+	//drawTitle();
 	printf("1. LEVEL 1\n");
 	printf("2. LEVEL 2\n");
 	printf("3. LEVEL 3\n");
@@ -45,7 +53,18 @@ int menu() {
 	}
 	return pick;
 }
-
+void drawTitle() {
+	gotoxy(50, 15);
+	printf("■■■  ■    ■  ■■■  ■■■  ■■■    ■    ■      ■       ■■■    ■■■    ■■■");
+	gotoxy(50, 16);
+	printf("■      ■    ■  ■  ■  ■      ■  ■    ■ ■ ■    ■  ■     ■  ■      ■    ■      ■");
+	gotoxy(50, 17);
+	printf("■■■  ■    ■  ■■■  ■■■  ■■      ■    ■    ■■■     ■■        ■    ■      ■");
+	gotoxy(50, 18);
+	printf("    ■  ■    ■  ■      ■      ■  ■    ■    ■   ■     ■   ■  ■      ■    ■      ■");
+	gotoxy(50, 19);
+	printf("■■■    ■■    ■      ■■■  ■    ■  ■    ■  ■       ■  ■    ■  ■■■    ■■■\n");
+}
 void drawCharacter(int x, int y) {
 	gotoxy(x, y);
 	printf("   ■■■■■");
@@ -76,13 +95,16 @@ void eraseCharacter(int x, int y) {
 		printf("\n");
 	}
 }
+
 int playGame(int level, int *score, int *life) {
 	int i = 0;
+	int able_item = 0;
 	int x = 1, y = 1, ch;
-	int flag[MAP_COL - 3][MAP_ROW - 2] = {0, };
+	struct item items;
+	int flag[MAP_COL - 3][MAP_ROW - 2] = { 0, };
 	int check = -1;
-	struct flagPoint flags[12];
-	int diff = 0; 
+	struct flagPoint flags[13];
+	int diff = 0;
 	int levelup = -1;
 	int check_flag = -1;
 	int kbHit = 0;
@@ -105,10 +127,30 @@ int playGame(int level, int *score, int *life) {
 	}
 	makeBackground(level, score, &kbHit, life);
 	makeFlag(level, flag, flags, diff);
+	setItem(flag, &items);
 	while (1) {
 		drawCharacter(x, y);
 		gotoxy(x, y);
-		check = checkPoint(x, y, level, flags, diff, &check_flag);
+		check = checkPoint(x, y, level, able_item, flags, &items,diff, &check_flag);
+		if (check == 4) {
+			gotoxy(100, MAP_ROW);
+			printf("아이템 획득! : ");
+			switch (items.item_num)
+			{
+			case 0:
+				printf("이동 횟수 복구");
+				break;
+			case 1:
+				printf("보물 위치 확인 (★)");
+				break;
+			case 2:
+				printf("깃발 개수 줄이기");
+				break;
+			case 3:
+				printf("LIFE 1 추가");
+			}
+			able_item = 1;
+		}
 		//printf("%d", check);
 		if (kbHit < 1) {
 			if (--(*life) == 0) {
@@ -129,12 +171,19 @@ int playGame(int level, int *score, int *life) {
 		ch = _getch();
 		if (ch == 0) {
 			ch = _getch();
-			if (ch == 59) {
-				con = useItem(level, diff, &x, &y, &kbHit, life, flags);
+			if (ch == 59 && able_item == 1) {
+				con = useItem(level, diff, &x, &y, &kbHit, life, flags, &items);
+				able_item++;
 				if (con == 0)
 					return 0;
 				else if(con == 2)
 					return 2;
+				gotoxy(100, MAP_ROW);
+				printf("아이템 사용 완료!               ");
+			}
+			else if (ch == 59 && able_item == 2) {
+				gotoxy(100, MAP_ROW + 1);
+				printf("이미 아이템을 사용했습니다!");
 			}
 		}
 		if (ch == 224) {
@@ -149,7 +198,7 @@ int playGame(int level, int *score, int *life) {
 				kbHit--;
 				gotoxy(0, MAP_ROW + 1);
 				printf("남은 이동 횟수: %d  \n", kbHit);
-				printf("현재 좌표: %d   %d  ", x, y);
+				printf("\n현재 좌표: %d   %d  ", x, y);
 			}
 			break;
 		case 80:
@@ -158,7 +207,7 @@ int playGame(int level, int *score, int *life) {
 				kbHit--;
 				gotoxy(0, MAP_ROW + 1);
 				printf("남은 이동 횟수: %d  \n", kbHit);
-				printf("현재 좌표: %d   %d  ", x, y);
+				printf("\n현재 좌표: %d   %d  ", x, y);
 			}
 			break;
 		case 75:
@@ -167,16 +216,16 @@ int playGame(int level, int *score, int *life) {
 				kbHit--;
 				gotoxy(0, MAP_ROW + 1);
 				printf("남은 이동 횟수: %d  \n", kbHit);
-				printf("현재 좌표: %d   %d  ", x, y);
+				printf("\n현재 좌표: %d   %d  ", x, y);
 			}
 			break;
 		case 77:
-			if (x + 1 + C_COL <= MAP_COL - 2) {
+			if (x + 1 + C_COL <= MAP_COL - 1) {
 				x++;
 				kbHit--;
 				gotoxy(0, MAP_ROW + 1);
 				printf("남은 이동 횟수: %d  \n", kbHit);
-				printf("현재 좌표: %d   %d  ", x, y);
+				printf("\n현재 좌표: %d   %d  ", x, y);
 			}
 			break;
 		}
@@ -184,8 +233,8 @@ int playGame(int level, int *score, int *life) {
 	return 1;
 }
 
-int useItem(int level, int diff, int *x, int *y, int *move, int *life, struct flagPoint *flags) {
-	int itemNum = rand() % 4;
+int useItem(int level, int diff, int *x, int *y, int *move, int *life, struct flagPoint *flags, struct item *items) {
+	int itemNum = items->item_num;
 	int result = 1;
 	int countFlag = 0;
 	switch (itemNum) {
@@ -278,9 +327,74 @@ void makeFlag(int level, int flag[][MAP_ROW - 2], struct flagPoint *flags, int d
 	}
 }
 
-int checkPoint(int x, int y, int level, struct flagPoint* flags, int diff, int *check_flag) {
+void setItem(int flag[][MAP_ROW - 2], struct item *items) {
+	int x = 0;
+	int y = 0;
+	while (1) {
+		x = rand() % (MAP_COL - 3);
+		y = rand() % (MAP_ROW - 2);
+		if ((x < C_COL || y < C_ROW) || ((x + (HINT_COL * 2) > MAP_COL) || y + HINT_ROW > MAP_ROW))
+			continue;
+		for (int i = y; i < y + HINT_ROW; i++) {
+			for (int j = x; j < x + HINT_COL; j++) {
+				if (y + HINT_ROW < MAP_ROW - 2 || x + HINT_COL < MAP_COL - 3)
+					if(flag[j][i] == 1)
+						continue;
+			}
+		}
+		for (int i = y; i < y + HINT_ROW; i++) {
+			for (int j = x; j < x + HINT_COL; j++)
+				flag[j][i] == 2;
+		}
+		items->item_x = x;
+		items->item_y = y;
+		items->item_num = rand() % 4;
+		break;
+	}
+	gotoxy(x, y);
+	printf("□■■■□");
+	gotoxy(x, ++y);
+	printf("■□□□■");
+	gotoxy(x, ++y);
+	printf("□□■■□");
+	gotoxy(x, ++y);
+	printf("□□■□□");
+	gotoxy(x, ++y);
+	printf("□□□□□");
+	gotoxy(x, ++y);
+	printf("□□■□□");
+
+}
+void eraseItem(struct item *items) {
+	gotoxy(items->item_x, items->item_y);
+	for (int i = 0; i < HINT_ROW; i++) {
+		gotoxy(items->item_x, items->item_y + i);
+		for (int j = 0; j < HINT_COL; j++){
+			printf("  ");
+		}
+	}
+}
+int checkPoint(int x, int y, int level, int able_item,struct flagPoint* flags, struct item *items,int diff, int *check_flag) {
 	int check = -1;
 	int br = 0;
+	if (!able_item) {
+		if ((items->item_x <= x + C_COL && items->item_x > x) && (items->item_y <= y + C_ROW && items->item_y >= y)) {
+			eraseItem(items);
+			return 4;
+		}
+		else if ((items->item_x <= x + C_COL && items->item_x > x) && (items->item_y + HINT_ROW <= y + C_ROW && items->item_y + HINT_ROW >= y)) {
+			eraseItem(items);
+			return 4;
+		}
+		else if ((items->item_x + HINT_COL <= x + C_COL && items->item_x + HINT_COL > x) && (items->item_y <= y + C_ROW && items->item_y >= y)) {
+			eraseItem(items);
+			return 4;
+		}
+		else if ((items->item_x + HINT_COL <= x + C_COL && items->item_x + HINT_COL > x) && (items->item_y + HINT_ROW <= y + C_ROW && items->item_y + HINT_ROW >= y)) {
+			eraseItem(items);
+			return 4;
+		}
+	}
 	for (int i = 0; i < diff; i++) {
 		for (int j = 0; j < C_ROW; j++) {
 			for (int k = 0; k < C_COL; k++) {
@@ -328,7 +442,7 @@ int checkFlag(int level, int diff, int *x, int *y, int check, int *score, int fl
 				countFlag++;
 			if (flags[i].x == 0 && flags[i].y == 0)
 				break;
-				gotoxy(flags[i].x, flags[i].y);
+			gotoxy(flags[i].x, flags[i].y);
 			flag[flags[i].x - 1][flags[i].y - 1] = 0;
 			printf("  ");
 			flags[i].x = 0;
