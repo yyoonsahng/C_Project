@@ -21,6 +21,16 @@
 #define BACKTOSTART 1
 #define RESETFLAG 2
 #define RESETPOINT 3
+struct flagPoint {
+	int x;
+	int y;
+	int mode;
+};
+struct item {
+	int item_x;
+	int item_y;
+	int item_num;
+};
 int menu();
 int playGame(int, int*, int*);
 void makeBackground(int, int*, int*, int*);
