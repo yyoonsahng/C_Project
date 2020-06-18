@@ -28,12 +28,16 @@ int menu() {
 	int score = 0;
 	int pick = 0;
 	int life = 1;
-	
-	//drawTitle();
-	printf("1. LEVEL 1\n");
-	printf("2. LEVEL 2\n");
-	printf("3. LEVEL 3\n");
-	printf("4. QUIT\n");
+	system("cls");
+	drawTitle();
+	printf("1. LEVEL 1");
+	gotoxy(60, 22);
+	printf("2. LEVEL 2");
+	gotoxy(60, 23);
+	printf("3. LEVEL 3");
+	gotoxy(60, 24);
+	printf("4. QUIT");
+	gotoxy(60, 25);
 	printf("원하시는 메뉴를 입력하세요: ");
 	srand(time(NULL));
 	scanf("%d", &pick);
@@ -47,6 +51,7 @@ int menu() {
 			break;
 	case 3:
 		playGame(LEVEL3, &score, &life);
+
 		break;
 	default:
 		break;
@@ -64,6 +69,7 @@ void drawTitle() {
 	printf("    ■  ■    ■  ■      ■      ■  ■    ■    ■   ■     ■   ■  ■      ■    ■      ■");
 	gotoxy(50, 19);
 	printf("■■■    ■■    ■      ■■■  ■    ■  ■    ■  ■       ■  ■    ■  ■■■    ■■■\n");
+	gotoxy(60, 21);
 }
 void drawCharacter(int x, int y) {
 	gotoxy(x, y);
@@ -301,7 +307,8 @@ void makeBackground(int level, int *score, int *move, int *life) {
 	printf("\nSCORE: %d\n", *score);
 	printf("남은 이동 횟수: %d  \n", *move);
 	printf("LIFE: %d", *life);
-	
+	gotoxy(100, MAP_ROW + 2);
+	printf("LEVEL %d", level);
 }
 
 void makeFlag(int level, int flag[][MAP_ROW - 2], struct flagPoint *flags, int diff) {
@@ -413,13 +420,54 @@ int checkPoint(int x, int y, int level, int able_item,struct flagPoint* flags, s
 	}
 	return check;
 }
-
+void makeStar(int level) {
+	gotoxy(80, 22);
+	printf("      **");
+	gotoxy(80, 23);
+	printf("      **");
+	gotoxy(80, 24);
+	printf("**************");
+	gotoxy(80, 25);
+	printf("  **********");
+	gotoxy(80, 26);
+	printf("    ******");
+	gotoxy(80, 27);
+	printf("  ****  ****");
+	gotoxy(80, 28);
+	printf("  **      **");
+	if (level == 3) {
+		gotoxy(40, 30);
+		printf("  ■■■      ■      ■      ■  ■■■    ■■■  ■        ■■■      ■      ■■■    ■■■");
+		gotoxy(40, 31);
+		printf("■           ■ ■    ■  ■  ■  ■      ■        ■        ■         ■ ■    ■   ■    ■■");
+		gotoxy(40, 32);
+		printf("■  ■■    ■■■    ■      ■  ■■■  ■        ■        ■■■    ■■■    ■■        ■");
+		gotoxy(40, 33);
+		printf("■    ■   ■    ■   ■      ■  ■      ■        ■        ■       ■    ■   ■  ■");
+		gotoxy(40, 34);
+		printf("  ■■■  ■      ■  ■      ■  ■■■    ■■■  ■■■■  ■■■  ■      ■  ■    ■    ■");
+	}
+	else {
+		gotoxy(40, 30);
+		printf("■        ■■■  ■       ■  ■■■  ■          ■■■  ■        ■■■      ■      ■■■    ■■■");
+		gotoxy(40, 31);
+		printf("■        ■       ■     ■   ■      ■        ■        ■        ■         ■ ■    ■   ■    ■■");
+		gotoxy(40, 32);
+		printf("■        ■■■    ■   ■    ■■■  ■        ■        ■        ■■■    ■■■    ■■        ■");
+		gotoxy(40, 33);
+		printf("■        ■         ■ ■     ■      ■        ■        ■        ■       ■    ■   ■  ■");
+		gotoxy(40, 34);
+		printf("■■■■  ■■■      ■       ■■■  ■■■■    ■■■  ■■■■  ■■■  ■      ■  ■    ■    ■");
+	}
+}
 int checkFlag(int level, int diff, int *x, int *y, int check, int *score, int flag[][18], struct flagPoint* flags, int *check_flag) {
 	int nextlevel = -1;
 	int countFlag = 0;
 	if (check == 0) {
 		system("cls");
-		printf("보물발견!!!!!!!!!\n");
+		gotoxy(60, 22);
+		makeStar(level);
+		Sleep(3000);
 		if (level == 1)
 			*score += 50;
 		else if (level == 2)
