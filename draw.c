@@ -1,19 +1,19 @@
 #include "myheader.h"
-void drawTitle() {
+void drawTitle() {//TitleÏùÑ Í∑∏Î¶∞Îã§
 	gotoxy(50, 15);
-	printf("°·°·°·  °·    °·  °·°·°·  °·°·°·  °·°·°·    °·    °·      °·       °·°·°·    °·°·°·    °·°·°·");
+	printf("‚ñ†‚ñ†‚ñ†  ‚ñ†    ‚ñ†  ‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†    ‚ñ†    ‚ñ†      ‚ñ†       ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†");
 	gotoxy(50, 16);
-	printf("°·      °·    °·  °·  °·  °·      °·  °·    °· °· °·    °·  °·     °·  °·      °·    °·      °·");
+	printf("‚ñ†      ‚ñ†    ‚ñ†  ‚ñ†  ‚ñ†  ‚ñ†      ‚ñ†  ‚ñ†    ‚ñ† ‚ñ† ‚ñ†    ‚ñ†  ‚ñ†     ‚ñ†  ‚ñ†      ‚ñ†    ‚ñ†      ‚ñ†");
 	gotoxy(50, 17);
-	printf("°·°·°·  °·    °·  °·°·°·  °·°·°·  °·°·      °·    °·    °·°·°·     °·°·        °·    °·      °·");
+	printf("‚ñ†‚ñ†‚ñ†  ‚ñ†    ‚ñ†  ‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†      ‚ñ†    ‚ñ†    ‚ñ†‚ñ†‚ñ†     ‚ñ†‚ñ†        ‚ñ†    ‚ñ†      ‚ñ†");
 	gotoxy(50, 18);
-	printf("    °·  °·    °·  °·      °·      °·  °·    °·    °·   °·     °·   °·  °·      °·    °·      °·");
+	printf("    ‚ñ†  ‚ñ†    ‚ñ†  ‚ñ†      ‚ñ†      ‚ñ†  ‚ñ†    ‚ñ†    ‚ñ†   ‚ñ†     ‚ñ†   ‚ñ†  ‚ñ†      ‚ñ†    ‚ñ†      ‚ñ†");
 	gotoxy(50, 19);
-	printf("°·°·°·    °·°·    °·      °·°·°·  °·    °·  °·    °·  °·       °·  °·    °·  °·°·°·    °·°·°·\n");
+	printf("‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†    ‚ñ†      ‚ñ†‚ñ†‚ñ†  ‚ñ†    ‚ñ†  ‚ñ†    ‚ñ†  ‚ñ†       ‚ñ†  ‚ñ†    ‚ñ†  ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†\n");
 	gotoxy(60, 21);
 }
 
-void makeBackground(int level, int* score, int* move, int* life) {
+void makeBackground(int level, int* score, int* move, int* life) {//Í≤åÏûÑÏùò Î∞∞Í≤Ω, Ïö∏ÌÉÄÎ¶¨Î•º Í∑∏Î†§Ï§ÄÎã§.
 	system("cls");
 	for (int i = 0; i < MAP_COL; i++) {
 		printf("#");
@@ -29,33 +29,33 @@ void makeBackground(int level, int* score, int* move, int* life) {
 		printf("#");
 	}
 	printf("\nSCORE: %d\n", *score);
-	printf("≥≤¿∫ ¿Ãµø »Ωºˆ: %d  \n", *move);
+	printf("ÎÇ®ÏùÄ Ïù¥Îèô ÌöüÏàò: %d  \n", *move);
 	printf("LIFE: %d", *life);
 	gotoxy(100, MAP_ROW + 2);
 	printf("LEVEL %d", level);
 }
 
-void drawCharacter(int x, int y) {
+void drawCharacter(int x, int y) {//ÌîåÎ†àÏù¥Ïñ¥(ÎßàÎ¶¨Ïò§)Î•º Ï∂úÎ†•ÌïúÎã§.
 	gotoxy(x, y);
-	printf("   °·°·°·°·°·");
+	printf("   ‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†");
 	gotoxy(x, ++y);
-	printf("  °·°·°·°·°·°·°·°·°·");
+	printf("  ‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†");
 	gotoxy(x, ++y);
-	printf("  °·°·°·°‡°‡°·°‡");
+	printf("  ‚ñ†‚ñ†‚ñ†‚ñ°‚ñ°‚ñ†‚ñ°");
 	gotoxy(x, ++y);
-	printf(" °·°‡°·°·°‡°‡°‡°·°‡°‡°‡");
+	printf(" ‚ñ†‚ñ°‚ñ†‚ñ†‚ñ°‚ñ°‚ñ°‚ñ†‚ñ°‚ñ°‚ñ°");
 	gotoxy(x, ++y);
-	printf("   °‡°‡°‡°‡°‡°‡°‡");
+	printf("   ‚ñ°‚ñ°‚ñ°‚ñ°‚ñ°‚ñ°‚ñ°");
 	gotoxy(x, ++y);
-	printf("°·°·°·°·°·°·°·°·");
+	printf("‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†");
 	gotoxy(x, ++y);
-	printf("°‡°‡°·°·°·°·°·°·°·°·°‡°‡");
+	printf("‚ñ°‚ñ°‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ†‚ñ°‚ñ°");
 	gotoxy(x, ++y);
-	printf("  °·°·°·  °·°·°·");
+	printf("  ‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†");
 	gotoxy(x, ++y);
-	printf("°·°·°·°·    °·°·°·°·");
+	printf("‚ñ†‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†‚ñ†");
 }
-void eraseCharacter(int x, int y) {
+void eraseCharacter(int x, int y) {//x,y Ï¢åÌëúÎ•º ÏûÖÎ†•Î∞õÏïÑ ÌîåÎ†àÏù¥Ïñ¥ÏùÑ ÏßÄÏõåÏ§ÄÎã§.
 	for (int i = 0; i < C_ROW; i++) {
 		gotoxy(x, y);
 		for (int i = 0; i < C_COL; i++)
@@ -66,28 +66,29 @@ void eraseCharacter(int x, int y) {
 }
 
 void makeFlag(int level, int flag[][MAP_ROW - 2], struct flagPoint* flags, int diff) {
+	//ÍπÉÎ∞úÏùÑ ÎßåÎì§Ïñ¥Ï§ÄÎã§.
 	int flagNum = diff;
 	for (int i = 0; i < flagNum; i++) {
-		int x = rand() % (MAP_COL - 3);
+		int x = (rand() % (MAP_COL - 3));//ÎûúÎç§Ìïú Ï¢åÌëúÎ•º ÏûÖÎ†•Î∞õÎäîÎã§.
 		int y = rand() % (MAP_ROW - 2);
-		if ((x < C_COL || y < C_ROW) || flag[x][y] == 1)
+		if ((x < C_COL || y < C_ROW) || flag[x][y] == 1)//Ïù¥ÎØ∏ ÏÉùÏÑ±Îêú ÍπÉÎ∞ú, ÌîåÎ†àÏù¥Ïñ¥Ïùò ÏúÑÏπòÏôÄ Ï§ëÎ≥µÎêòÏßÄ ÏïäÎèÑÎ°ù
 			i--;
-		else if (flag[x][y] == 0) {
+		else if (flag[x][y] == 0) {//ÍπÉÎ∞úÏùÑ ÏÉùÏÑ±
 			flag[x][y] = 1;
 			gotoxy(x + 1, y + 1);
-			flags[i].x = x + 1;
+			flags[i].x = x + 1;//ÍπÉÎ∞úÏùò Ï¢åÌëú
 			flags[i].y = y + 1;
-			if (i > RESETPOINT) {
+			if (i > RESETPOINT) {//ÍπÉÎ∞úÏùò Ïú†Ìòï Î∞∞Ï†ï, 
 				int a = i % 2;
 				flags[i].mode = a + 1;
 			}
 			else
 				flags[i].mode = i;
-			printf("¢∫");
+			printf("‚ñ∂");
 		}
 	}
 }
-void eraseItem(struct item* items) {
+void eraseItem(struct item* items) {//itemÏùÑ ÌöçÎìùÌïú Í≤ΩÏö∞ ÏïÑÏù¥ÌÖú Í∑∏Î¶ºÏùÑ ÏßÄÏö∞Í∏∞ ÏúÑÌï¥
 	gotoxy(items->item_x, items->item_y);
 	for (int i = 0; i < HINT_ROW; i++) {
 		gotoxy(items->item_x, items->item_y + i);
@@ -97,7 +98,7 @@ void eraseItem(struct item* items) {
 	}
 }
 
-void makeStar(int level) {
+void makeStar(int level) {//Í≤åÏûÑ, Î†àÎ≤® ÌÅ¥Î¶¨Ïñ¥Ïãú Ï∂ïÌïò Î¨∏Íµ¨Î•º Ï∂úÎ†•ÌïúÎã§.
 	gotoxy(80, 22);
 	printf("      **");
 	gotoxy(80, 23);
@@ -114,26 +115,26 @@ void makeStar(int level) {
 	printf("  **      **");
 	if (level == 3) {
 		gotoxy(40, 30);
-		printf("  °·°·°·      °·      °·      °·  °·°·°·    °·°·°·  °·        °·°·°·      °·      °·°·°·    °·°·°·");
+		printf("  ‚ñ†‚ñ†‚ñ†      ‚ñ†      ‚ñ†      ‚ñ†  ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†  ‚ñ†        ‚ñ†‚ñ†‚ñ†      ‚ñ†      ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†");
 		gotoxy(40, 31);
-		printf("°·           °· °·    °·  °·  °·  °·      °·        °·        °·         °· °·    °·   °·    °·°·");
+		printf("‚ñ†           ‚ñ† ‚ñ†    ‚ñ†  ‚ñ†  ‚ñ†  ‚ñ†      ‚ñ†        ‚ñ†        ‚ñ†         ‚ñ† ‚ñ†    ‚ñ†   ‚ñ†    ‚ñ†‚ñ†");
 		gotoxy(40, 32);
-		printf("°·  °·°·    °·°·°·    °·      °·  °·°·°·  °·        °·        °·°·°·    °·°·°·    °·°·        °·");
+		printf("‚ñ†  ‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†    ‚ñ†      ‚ñ†  ‚ñ†‚ñ†‚ñ†  ‚ñ†        ‚ñ†        ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†        ‚ñ†");
 		gotoxy(40, 33);
-		printf("°·    °·   °·    °·   °·      °·  °·      °·        °·        °·       °·    °·   °·  °·");
+		printf("‚ñ†    ‚ñ†   ‚ñ†    ‚ñ†   ‚ñ†      ‚ñ†  ‚ñ†      ‚ñ†        ‚ñ†        ‚ñ†       ‚ñ†    ‚ñ†   ‚ñ†  ‚ñ†");
 		gotoxy(40, 34);
-		printf("  °·°·°·  °·      °·  °·      °·  °·°·°·    °·°·°·  °·°·°·°·  °·°·°·  °·      °·  °·    °·    °·");
+		printf("  ‚ñ†‚ñ†‚ñ†  ‚ñ†      ‚ñ†  ‚ñ†      ‚ñ†  ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†  ‚ñ†      ‚ñ†  ‚ñ†    ‚ñ†    ‚ñ†");
 	}
 	else {
 		gotoxy(40, 30);
-		printf("°·        °·°·°·  °·       °·  °·°·°·  °·          °·°·°·  °·        °·°·°·      °·      °·°·°·    °·°·°·");
+		printf("‚ñ†        ‚ñ†‚ñ†‚ñ†  ‚ñ†       ‚ñ†  ‚ñ†‚ñ†‚ñ†  ‚ñ†          ‚ñ†‚ñ†‚ñ†  ‚ñ†        ‚ñ†‚ñ†‚ñ†      ‚ñ†      ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†");
 		gotoxy(40, 31);
-		printf("°·        °·       °·     °·   °·      °·        °·        °·        °·         °· °·    °·   °·    °·°·");
+		printf("‚ñ†        ‚ñ†       ‚ñ†     ‚ñ†   ‚ñ†      ‚ñ†        ‚ñ†        ‚ñ†        ‚ñ†         ‚ñ† ‚ñ†    ‚ñ†   ‚ñ†    ‚ñ†‚ñ†");
 		gotoxy(40, 32);
-		printf("°·        °·°·°·    °·   °·    °·°·°·  °·        °·        °·        °·°·°·    °·°·°·    °·°·        °·");
+		printf("‚ñ†        ‚ñ†‚ñ†‚ñ†    ‚ñ†   ‚ñ†    ‚ñ†‚ñ†‚ñ†  ‚ñ†        ‚ñ†        ‚ñ†        ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†        ‚ñ†");
 		gotoxy(40, 33);
-		printf("°·        °·         °· °·     °·      °·        °·        °·        °·       °·    °·   °·  °·");
+		printf("‚ñ†        ‚ñ†         ‚ñ† ‚ñ†     ‚ñ†      ‚ñ†        ‚ñ†        ‚ñ†        ‚ñ†       ‚ñ†    ‚ñ†   ‚ñ†  ‚ñ†");
 		gotoxy(40, 34);
-		printf("°·°·°·°·  °·°·°·      °·       °·°·°·  °·°·°·°·    °·°·°·  °·°·°·°·  °·°·°·  °·      °·  °·    °·    °·");
+		printf("‚ñ†‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†      ‚ñ†       ‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†‚ñ†    ‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†‚ñ†  ‚ñ†‚ñ†‚ñ†  ‚ñ†      ‚ñ†  ‚ñ†    ‚ñ†    ‚ñ†");
 	}
 }
