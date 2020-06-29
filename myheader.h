@@ -2,31 +2,32 @@
 #include<windows.h>
 #include<time.h>
 #include<stdlib.h>
-#define HINT_ROW 6
-#define HINT_COL 5
-#define MAP_COL 190
-#define MAP_ROW 45
-#define C_ROW 9
-#define C_COL 24
+#define HINT_ROW 6//아이템의 행
+#define HINT_COL 5//아이템 열
+#define MAP_COL 190//게임 맵의 행
+#define MAP_ROW 45//게임 맵의 열
+#define C_ROW 9//케릭터의 행
+#define C_COL 24//케릭터의 열
 #define LEVEL1 1
 #define LEVEL2 2
 #define LEVEL3 3
-#define DIFF1 5
+#define DIFF1 5//레벨에 따른 깃발 개수
 #define DIFF2 7
 #define DIFF3 12
-#define KBHIT1 700
+#define KBHIT1 700//레벨에 따른 이동 가능 횟수
 #define KBHIT2 500
 #define KBHIT3 300
-#define TREASURE 0
+
+#define TREASURE 0//깃발 유형에 따른 구분
 #define BACKTOSTART 1
 #define RESETFLAG 2
 #define RESETPOINT 3
-struct flagPoint {
+struct flagPoint {//깃발 정보를 저장할 구조체
 	int x;
 	int y;
 	int mode;
 };
-struct item {
+struct item {//아이템 정보를 저장할 구조체
 	int item_x;
 	int item_y;
 	int item_num;
