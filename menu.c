@@ -1,10 +1,10 @@
 #include "myheader.h"
-int menu() {
-	int score = 0;
+int menu() {//메인화면
+	int score = 50;
 	int pick = 0;
 	int life = 1;
 	system("cls");
-	drawTitle();
+	drawTitle();//타이틀을 그린다.
 	printf("1. LEVEL 1");
 	gotoxy(60, 22);
 	printf("2. LEVEL 2");
@@ -13,7 +13,7 @@ int menu() {
 	gotoxy(60, 24);
 	printf("4. QUIT");
 	gotoxy(60, 25);
-	printf("���Ͻô� �޴��� �Է��ϼ���: ");
+	printf("원하시는 메뉴를 입력하세요: ");//메뉴를 입력받는다.
 	srand(time(NULL));
 	scanf("%d", &pick);
 	switch (pick)
