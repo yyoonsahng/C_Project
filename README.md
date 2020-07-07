@@ -1,1 +1,1 @@
-# Final Project of C Programming in Konkuk University
+# Final Project of C Programming on Konkuk University
